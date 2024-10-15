@@ -11,7 +11,6 @@ from functools import wraps
 from flask_migrate import Migrate
 from datetime import datetime
 
-from flask_gravatar import Gravatar
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -143,14 +142,7 @@ def logout():
 def show_post(post_id):
     requested_post = BlogPost.query.get(post_id)
     comments = Comment.query.filter_by(post_id=post_id).all()
-    gravatar = Gravatar(app,
-                        size=100,
-                        rating='g',
-                        default='retro',
-                        force_default=False,
-                        force_lower=False,
-                        use_ssl=False,
-                        base_url=None)
+
     comment_form = CommentForm()
     if current_user.is_authenticated and comment_form.validate_on_submit():
         new_comment = Comment(text=comment_form.comment.data,
@@ -164,7 +156,7 @@ def show_post(post_id):
 
     return render_template("post.html",
                            post=requested_post,year=year,
-                           comment_form=comment_form,comments=comments,gravatar=gravatar)
+                           comment_form=comment_form,comments=comments)
 
 
 @app.route("/about")
