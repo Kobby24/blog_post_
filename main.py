@@ -10,6 +10,10 @@ from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 from functools import wraps
 from flask_migrate import Migrate
 from datetime import datetime
+import os
+
+# postgresql://blogs_db_fn8q_user:ajCIQnLhgACFCrzabXV9jBE3N3H3BiWl@dpg-cs7qamdumphs73abtq4g-a/blogs_db_fn8q
+# postgresql://blogs_db_fn8q_user:ajCIQnLhgACFCrzabXV9jBE3N3H3BiWl@dpg-cs7qamdumphs73abtq4g-a.oregon-postgres.render.com/blogs_db_fn8q
 
 
 app = Flask(__name__)
@@ -18,7 +22,8 @@ ckeditor = CKEditor(app)
 Bootstrap(app)
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 login_manager = LoginManager()
 login_manager.init_app(app)
